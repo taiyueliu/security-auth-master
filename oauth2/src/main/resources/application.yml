@@ -1,0 +1,65 @@
+
+server:
+  port: ${PORT:40400}
+  servlet:
+    context-path: /auth
+spring:
+  application:
+    name: service-oauth2
+  redis:
+    host: ${REDIS_HOST:139.196.200.54}
+    port: ${REDIS_PORT:6379}
+    timeout: 5000 #���ӳ�ʱ ����
+    jedis:
+      pool:
+        maxActive: 3
+        maxIdle: 3
+        minIdle: 1
+        maxWait: -1 #���ӳ�������ʱ�� -1û������
+  datasource:
+    druid:
+      url: ${MYSQL_URL:jdbc:mysql://139.196.200.54:3306/xc_user?characterEncoding=utf-8}
+      username: root
+      password: root
+      driverClassName: com.mysql.jdbc.Driver
+      initialSize: 5  #��ʼ������������
+      minIdle: 5  #��С��������
+      maxActive: 20 #�����������
+      maxWait: 10000  #��ȡ�������ȴ�ʱ�䣬����
+      testOnBorrow: true #��������ʱ��������Ƿ���Ч
+      testOnReturn: false #�黹����ʱ��������Ƿ���Ч
+      timeBetweenEvictionRunsMillis: 60000 #���ü����������Ƿ���Ч��ʱ�䣨��λ�Ǻ��룩
+      minEvictableIdleTimeMillis: 300000  #���������ӳص���С����ʱ�䣨���룩
+
+encrypt:
+  key-store:
+    location: classpath:/xc.keystore
+    secret: xuechengkeystore
+    alias: xckey
+    password: xuecheng
+eureka:
+  client:
+    registerWithEureka: true #����ע�Ὺ��
+    fetchRegistry: true #�����ֿ���
+    serviceUrl: #Eureka�ͻ�����Eureka����˽��н����ĵ�ַ������м��ö��ŷָ�
+      defaultZone: ${EUREKA_SERVER:http://localhost:50101/eureka/}
+  instance:
+    prefer-ip-address:  true  #���Լ���ip��ַע�ᵽEureka������
+    ip-address: ${IP_ADDRESS:127.0.0.1}
+    instance-id: ${spring.application.name}:${server.port} #ָ��ʵ��id
+ribbon:
+  MaxAutoRetries: 2 #������Դ�������Eureka�п����ҵ����񣬵��Ƿ���������ʱ�������ԣ����eureka���Ҳ���������ֱ���߶�·��
+  MaxAutoRetriesNextServer: 3 #�л�ʵ�������Դ���
+  OkToRetryOnAllOperations: false  #�����в������󶼽������ԣ������get����ԣ������post��put�Ȳ���û��ʵ���ݵȵ�������Ǻ�Σ�յ�,��������Ϊfalse
+  ConnectTimeout: 5000  #�������ӵĳ�ʱʱ��
+  ReadTimeout: 6000 #������ĳ�ʱʱ��
+
+
+auth:
+  tokenValiditySeconds: 1200  #token存储到redis的过期时间
+  clientId: XcWebApp
+  clientSecret: XcWebApp
+  cookieDomain: localhost
+  cookieMaxAge: -1
+
+

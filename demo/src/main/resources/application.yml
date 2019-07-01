@@ -1,0 +1,23 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /que
+spring:
+  application:
+    name: service-que
+eureka:
+  client:
+    registerWithEureka: true #����ע�Ὺ��
+    fetchRegistry: true #�����ֿ���
+    serviceUrl: #Eureka�ͻ�����Eureka����˽��н����ĵ�ַ������м��ö��ŷָ�
+      defaultZone: ${EUREKA_SERVER:http://localhost:50101/eureka/}
+  instance:
+    prefer-ip-address:  true  #���Լ���ip��ַע�ᵽEureka������
+    ip-address: ${IP_ADDRESS:127.0.0.1}
+    instance-id: ${spring.application.name}:${server.port} #ָ��ʵ��id
+ribbon:
+  MaxAutoRetries: 2 #������Դ�������Eureka�п����ҵ����񣬵��Ƿ���������ʱ�������ԣ����eureka���Ҳ���������ֱ���߶�·��
+  MaxAutoRetriesNextServer: 3 #�л�ʵ�������Դ���
+  OkToRetryOnAllOperations: false  #�����в������󶼽������ԣ������get����ԣ������post��put�Ȳ���û��ʵ���ݵȵ�������Ǻ�Σ�յ�,��������Ϊfalse
+  ConnectTimeout: 5000  #�������ӵĳ�ʱʱ��
+  ReadTimeout: 6000 #������ĳ�ʱʱ��
