@@ -2,11 +2,13 @@ package com.liutaiyue.service;
 
 import com.liutaiyue.common.domain.ucenter.XcCompanyUser;
 import com.liutaiyue.common.domain.ucenter.XcMenu;
+import com.liutaiyue.common.domain.ucenter.XcRole;
 import com.liutaiyue.common.domain.ucenter.XcUser;
 import com.liutaiyue.common.domain.ucenter.ext.XcUserExt;
 import com.liutaiyue.dao.XcCompanyUserMapper;
 import com.liutaiyue.dao.UcenterMapper;
 import com.liutaiyue.dao.XcMenuMapper;
+import com.liutaiyue.dao.XcRoleMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ public class UcenterService {
     private XcCompanyUserMapper xcCompanyUserMapper;
     @Autowired
     private XcMenuMapper xcMenuMapper;
+    @Autowired
+    private XcRoleMapper xcRoleMapper;
 
     public XcUser findXcUserByUsername(String username) {
         return ucenterMapper.findXcUserByUsername(username);
@@ -51,6 +55,9 @@ public class UcenterService {
         //查询权限
         List<XcMenu> xcMenus = xcMenuMapper.selectPermissionByUserId(userId);
         xcUserExt.setPermissions(xcMenus);
+
+        List<XcRole> xcRole =  xcRoleMapper.selectRoleByUserId(userId);
+        xcUserExt.setRoles(xcRole);
 
         return xcUserExt;
     }

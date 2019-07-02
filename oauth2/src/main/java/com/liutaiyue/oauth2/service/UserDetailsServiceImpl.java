@@ -1,18 +1,20 @@
 package com.liutaiyue.oauth2.service;
 
 import com.liutaiyue.common.domain.ucenter.XcMenu;
+import com.liutaiyue.common.domain.ucenter.XcRole;
 import com.liutaiyue.common.domain.ucenter.ext.XcUserExt;
 import com.liutaiyue.oauth2.client.UserClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Service;
@@ -51,17 +53,34 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return null;
         }
         String password = userext.getPassword();
+
+        List<XcRole> roles = userext.getRoles();
+        if(roles == null){
+            roles = new ArrayList<>();
+        }
+        List<String> user_roles = new ArrayList<>();
+        roles.forEach(item -> user_roles.add("ROLE_"+item.getRoleCode()));
+
         List<XcMenu> permissions = userext.getPermissions();
         if(permissions == null){
             permissions = new ArrayList<>();
         }
-        List<String> user_permission = new ArrayList<>();
-        permissions.forEach(item-> user_permission.add(item.getCode()));
+        List<String> user_permissions = new ArrayList<>();
+        permissions.forEach(item-> user_permissions.add(item.getCode()));
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (String user_role:user_roles) {//将角色传输到在后面进行全权限验证时会使用GrantedAuthority
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user_role);
+            //1：此处将权限信息添加到 GrantedAuthority 对象中，在后面进行全权限验证时会使用GrantedAuthority 对象。
+            grantedAuthorities.add(grantedAuthority);
+        }
 
-        String user_permission_string  = StringUtils.join(user_permission.toArray(), ",");
-        UserJwt userDetails = new UserJwt(username,
-                password,
-                AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
+        for (String user_permission:user_permissions) {//将权限传输到在后面进行全权限验证时会使用GrantedAuthority
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user_permission);
+            //1：此处将权限信息添加到 GrantedAuthority 对象中，在后面进行全权限验证时会使用GrantedAuthority 对象。
+            grantedAuthorities.add(grantedAuthority);
+        }
+
+        UserJwt userDetails = new UserJwt(username,password,grantedAuthorities);
 
         userDetails.setId(userext.getId());
         userDetails.setUtype(userext.getUtype());//用户类型

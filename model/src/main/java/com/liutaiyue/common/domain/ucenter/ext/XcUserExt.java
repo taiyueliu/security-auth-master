@@ -1,6 +1,7 @@
 package com.liutaiyue.common.domain.ucenter.ext;
 
 import com.liutaiyue.common.domain.ucenter.XcMenu;
+import com.liutaiyue.common.domain.ucenter.XcRole;
 import com.liutaiyue.common.domain.ucenter.XcUser;
 import lombok.Data;
 import lombok.ToString;
@@ -19,4 +20,7 @@ public class XcUserExt extends XcUser {
 
     //企业信息
     private String companyId;
+
+    //角色
+    private List<XcRole> roles;
 }

@@ -23,6 +23,7 @@
         <module>model</module>
         <module>utils</module>
         <module>user-center</module>
+        <module>service-zuul</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
