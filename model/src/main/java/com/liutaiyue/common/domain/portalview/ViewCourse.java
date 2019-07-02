@@ -8,7 +8,6 @@ import com.liutaiyue.common.domain.report.ReportCourse;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
@@ -17,7 +16,6 @@ import java.io.Serializable;
  */
 @Data
 @ToString
-@Document(collection = "view_course")
 public class ViewCourse implements Serializable{
 
     @Id

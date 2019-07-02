@@ -3,7 +3,6 @@ package com.liutaiyue.common.domain.cms;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
  */
 @Data
 @ToString
-@Document(collection = "cms_page")
 public class CmsPage {
     /**
      * 页面名称、别名、访问地址、类型（静态/动态）、页面模版、状态

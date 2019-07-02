@@ -4,7 +4,6 @@ import com.liutaiyue.common.utils.MD5Util;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
@@ -14,7 +13,6 @@ import java.util.List;
  */
 @Data
 @ToString
-@Document(collection = "media_video_course")
 public class MediaVideoCourse {
 
     @Id

@@ -3,7 +3,6 @@ package com.liutaiyue.common.domain.portalview;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Column;
 import java.io.Serializable;
@@ -13,7 +12,6 @@ import java.io.Serializable;
  */
 @Data
 @ToString
-@Document(collection = "pre_view_course_media")
 public class PreViewCourseMedia implements Serializable{
 
     @Id

@@ -3,7 +3,7 @@ package com.liutaiyue.service;
 import com.liutaiyue.common.domain.ucenter.XcCompanyUser;
 import com.liutaiyue.common.domain.ucenter.XcUser;
 import com.liutaiyue.common.domain.ucenter.ext.XcUserExt;
-import com.liutaiyue.controller.XcCompanyUserMapper;
+import com.liutaiyue.dao.XcCompanyUserMapper;
 import com.liutaiyue.dao.UcenterMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

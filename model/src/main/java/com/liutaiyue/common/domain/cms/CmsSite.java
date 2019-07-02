@@ -3,7 +3,6 @@ package com.liutaiyue.common.domain.cms;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
@@ -15,7 +14,6 @@ import java.util.Date;
  */
 @Data
 @ToString
-@Document(collection = "cms_site")
 public class CmsSite {
 
     //站点ID

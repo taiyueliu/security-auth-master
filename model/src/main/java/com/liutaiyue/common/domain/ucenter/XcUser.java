@@ -1,5 +1,6 @@
 package com.liutaiyue.common.domain.ucenter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
@@ -22,7 +23,9 @@ public class XcUser {
     @Column(length = 32)
     private String id;
     private String username;
+//    @JsonIgnore
     private String password;
+    @JsonIgnore
     private String salt;
     private String name;
     private String utype;

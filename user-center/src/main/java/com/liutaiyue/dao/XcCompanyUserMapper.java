@@ -1,4 +1,4 @@
-package com.liutaiyue.controller;
+package com.liutaiyue.dao;
 
 import com.liutaiyue.common.domain.ucenter.XcCompanyUser;
 import org.springframework.data.jpa.repository.JpaRepository;
