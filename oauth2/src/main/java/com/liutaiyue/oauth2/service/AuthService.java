@@ -5,7 +5,6 @@ import com.liutaiyue.common.client.XcServiceList;
 import com.liutaiyue.common.domain.ucenter.ext.AuthToken;
 import com.liutaiyue.common.domain.ucenter.response.AuthCode;
 import com.liutaiyue.common.exception.ExceptionCast;
-import org.bson.internal.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -20,7 +19,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
-
+import org.springframework.util.Base64Utils;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
@@ -169,6 +168,7 @@ public class AuthService {
      */
     private String httpBasic(String clientId,String clinetPwd){
         String clinetString = clientId + ":" + clinetPwd;
-        return "Basic "+ Base64.encode(clinetString.getBytes());
+        byte[] encode = Base64Utils.encode(clinetString.getBytes());
+        return "Basic "+ new String(encode);
     }
 }

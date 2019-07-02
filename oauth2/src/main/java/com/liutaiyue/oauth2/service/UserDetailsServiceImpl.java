@@ -1,5 +1,8 @@
 package com.liutaiyue.oauth2.service;
 
+import com.liutaiyue.common.domain.ucenter.XcMenu;
+import com.liutaiyue.common.domain.ucenter.ext.XcUserExt;
+import com.liutaiyue.oauth2.client.UserClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,12 +17,18 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    ClientDetailsService clientDetailsService;
+    private ClientDetailsService clientDetailsService;
+    @Autowired
+    private UserClient userClient;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,8 +46,28 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (StringUtils.isEmpty(username)) {
             return null;
         }
-        UserJwt userDetails = new UserJwt("itcast",new BCryptPasswordEncoder().encode("123"),
-                AuthorityUtils.commaSeparatedStringToAuthorityList("wirte,ROLE_ADMIN"));
+        XcUserExt userext = userClient.getUserext(username);
+        if(userext == null){
+            return null;
+        }
+        String password = userext.getPassword();
+        List<XcMenu> permissions = userext.getPermissions();
+        if(permissions == null){
+            permissions = new ArrayList<>();
+        }
+        List<String> user_permission = new ArrayList<>();
+        permissions.forEach(item-> user_permission.add(item.getCode()));
+
+        String user_permission_string  = StringUtils.join(user_permission.toArray(), ",");
+        UserJwt userDetails = new UserJwt(username,
+                password,
+                AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
+
+        userDetails.setId(userext.getId());
+        userDetails.setUtype(userext.getUtype());//用户类型
+        userDetails.setCompanyId(userext.getCompanyId());//所属企业
+        userDetails.setName(userext.getName());//用户名称
+        userDetails.setUserpic(userext.getUserpic());//用户头像
         return userDetails;
     }
 }

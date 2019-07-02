@@ -1,7 +1,6 @@
 package com.liutaiyue.oauth2.test;
 
 import com.liutaiyue.common.client.XcServiceList;
-import org.bson.internal.Base64;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.DefaultResponseErrorHandler;
@@ -84,7 +84,8 @@ public class TestClient {
      */
     private String httpBasic(String clientId,String clinetPwd){
         String clinetString = clientId + ":" + clinetPwd;
-        return "Basic "+Base64.encode(clinetString.getBytes());
+        byte[] encode = Base64Utils.encode(clinetString.getBytes());
+        return "Basic "+ new String(encode);
     }
 
 }
