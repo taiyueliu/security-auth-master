@@ -37,6 +37,19 @@ public class TestClient {
     @Autowired
     private RestTemplate restTemplate;
 
+
+    @Test
+    public void testClient01(){
+        ServiceInstance choose = loadBalancerClient.choose("provider-user");
+        URI uri = choose.getUri();
+        String auth_url = uri + "/dept/getDept/12";
+        /*URI url, Class<T> responseType*/
+        ResponseEntity<String> exchange  = restTemplate.exchange(auth_url,HttpMethod.GET,new HttpEntity<>(null, null), String.class);
+        String body1 = exchange.getBody();
+        System.out.println(body1);
+    }
+
+
     @Test
     public void testClient(){
         //采用客户端负载均衡，从eureka获取服务ip和端口

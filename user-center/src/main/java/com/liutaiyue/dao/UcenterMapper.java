@@ -3,6 +3,8 @@ package com.liutaiyue.dao;
 import com.liutaiyue.common.domain.ucenter.XcUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @Author 刘太月
  * @Despriction

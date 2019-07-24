@@ -1,5 +1,8 @@
 package com.liutaiyue.demo.controller;
 
+import com.liutaiyue.common.domain.ucenter.XcUser;
+import com.liutaiyue.common.model.response.CommonCode;
+import com.liutaiyue.common.model.response.ResponseVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +18,12 @@ public class demoController {
 
 
     @GetMapping("/head/{index}")
-    public String getHead(@PathVariable("index") String index){
-        return "my name is head"+index;
+    public ResponseVO<XcUser> getHead(@PathVariable("index") String index){
+
+        XcUser xcUser = new XcUser();
+        xcUser.setId("23456");
+        xcUser.setName("嘻嘻");
+
+        return new ResponseVO(CommonCode.SUCCESS,xcUser);
     }
 }
